@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% block title %}
+{{ super() }}
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- password strength checker for bootstrap -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.pwstrength.bootstrap/pwstrength-bootstrap-1.2.9.min.js') }}"></script>
+<!-- handles locale stuff for profile -->
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+<!-- make some non-secure data available for js to handle -->
+<script type="text/javascript">
+var profile_country{% if profile.country is defined and profile.country %} = "{{ profile.country }}"{% endif %};
+var profile_sub{% if profile.subdivision is defined and profile.subdivision %} = "{{ profile.subdivision }}"{% endif %};
+{% if profile is defined %}
+var role{% if profile.user.role is defined and profile.user.role %} = "{{ profile.user.role }}"{% endif %};
+{% else %}
+var role{% if session.auth_user.role is defined and session.auth_user.role %} = "{{ session.auth_user.role }}"{% endif %};
+{% endif %};
+
+</script>
+
+{% endblock %}
+
+{% block navbar %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Profile</h1>
+{% if not session.auth_user.username == profile.username %} 
+<h2>{{ profile.username }} ({{ profile.user.role }}) edited by {{ session.auth_user.username }} ({{ session.auth_user.role }})</h2>
+{% else %}
+<h2>{{ profile.username }} ({{ session.auth_user.role }})</h2>
+{% endif %}
+
+{% if profile.updated is defined and profile.updated %}
+<p>Last updated: {{ profile.updated }}</p>
+{% else %}
+<p>Please fill out profile before continuing.</p>
+{% endif %}
+<form
+	id="profile-form"
+ 	data-toggle="validator"
+ 	role="form"
+	method="POST">
+
+	{% if session.auth_user.role in ["root", "admin"] %} 
+		{% if not session.auth_user.username == profile.username %} 
+	<div class="form-group">
+		<label for="select-role" class="control-label">Role</label>
+		<select id="select-role" name="role" class="form-control">
+			<option value="user">user</option>
+			<option value="admin">admin</option>
+		</select>
+	</div>
+		{% endif %}
+	{% endif %}
+
+	<div class="form-group">
+		<label for="input-email" class="control-label">Email</label>
+		<input
+			type="email"
+   			class="form-control"
+	  		id="input-email"
+			name="email"
+			{% if profile.email is defined and profile.email %}
+			value="{{ profile.email }}"
+			{% endif %}
+   			placeholder="email@example.com"
+			required></input>
+		<div class="help-block with-errors"></div>
+	</div>
+
+	<div class="form-group">
+		<label for="input-firstname" class="control-label">First Name</label>
+		<input
+			type="text"
+   			class="form-control"
+	  		id="input-firstname"
+			name="first_name"
+			{% if profile.first_name is defined  and profile.first_name %}
+			value="{{ profile.first_name }}"
+			{% endif %}
+   			placeholder="Your given name."
+			required></input>
+		<div class="help-block with-errors"></div>
+	</div>
+
+	<div class="form-group">
+		<label
+			for="input-middle"
+			class="control-label">Middle</label>
+		<input
+			type="text"
+   			class="form-control"
+	  		id="input-middle"
+			name="middle"
+			{% if profile.middle is defined and profile.middle %}
+			value="{{ profile.middle }}"
+			{% endif %}
+   			placeholder="middle"
+			required></input>
+		<div class="help-block with-errors"></div>
+	</div>
+
+	<div class="form-group">
+		<label for="input-lastname" class="control-label">Last Name</label>
+		<input
+			type="text"
+   			class="form-control"
+	  		id="input-lastname"
+			name="last_name"
+			{% if profile.last_name is defined and profile.last_name %}
+			value="{{ profile.last_name }}"
+			{% endif %}
+   			placeholder="Your family name."
+			required></input>
+		<div class="help-block with-errors"></div>
+	</div>
+
+	<div class="form-group">
+		<label for="input-street" class="control-label">Street Address</label>
+		<input
+			type="text"
+   			class="form-control"
+			id="input-street"
+			name="street"
+			{% if profile.street is defined and profile.street %}
+			value="{{ profile.street }}"
+			{% endif %}
+   			placeholder="1313 Mockingbird Ln."
+			required></input>
+		<div class="help-block with-errors"></div>
+	</div>
+
+	<div class="form-group">
+		<label
+			for="input-street2"
+			class="control-label">Street Address 2</label>
+		<input
+			type="text"
+   			class="form-control"
+			id="input-street2"
+			name="street2"
+			{% if profile.street2 is defined and profile.street2 %}
+			value="{{ profile.street2 }}"
+			{% endif %}
+   			placeholder="Apt 123"></input>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label
+			for="input-city"
+			class="control-label">City</label>
+		<input
+			type="text"
+   			class="form-control"
+			id="input-city"
+			name="city"
+   			{% if profile.city is defined and profile.city %}
+			value="{{ profile.city }}"
+			{% endif %}
+   			placeholder="Townsville"
+			required></input>
+		<div class="help-block with-errors"></div>
+	</div>
+
+	<div class="form-group">
+		<label for="select-countrycode" class="control-label">Country</label>
+		<select
+			id="select-countrycode"
+			name="country"
+   			class="form-control"
+			required>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label
+			for="select-subdivision"
+			id="select-sd-label"
+			class="control-label">State</label>
+		<select
+			id="select-subdivision"
+			name="subdivision"
+   			class="form-control"
+			required></select>
+	</div>
+
+	<div class="form-group">
+		<label
+			for="select-postal-code"
+			class="control-label">Postal Code</label>
+		<input
+			type="text"
+   			class="form-control"
+			id="postal-code"
+			name="postal_code"
+			{% if profile.postal_code is defined and profile.postal_code %}
+			value="{{ profile.postal_code}}"
+			{% endif %}
+			required></input>
+		</select>
+		<div class="help-block with-errors"></div>
+	</div>
+
+	<div class="form-group">
+		<label for="submit-update" class="control-label"></label>
+		<button
+			type="submit"
+			class="btn btn-primary"
+			id="submit-update">Update</button>
+	</div>
+</form>
+
+{% endblock %}
