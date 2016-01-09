@@ -1,55 +1,47 @@
 # The Dull Parts
 
-... is not quite there yet. :-D
-
-## What are the Dull Parts?
+A Flask app skeleton that handles: 
 
 - Database Initialization
-- Authentication
-- "Admin Panels"
-- Profile Editing
+- Authentication, Roles and Profiles
 - Password Change/Recovery
+- A Tiny Administration Menu
 
-I use Flask on a daily basis to create small apps for work. Sometimes I find I need a combination features that a micro-framework does not supply out of the box, but still does not inspire me to descend into the various bolgia of a "full-featured" framework.
+The Dull Parts is meant to provide a good start on all the admin and user handling bits of a small app that you can just drop your awesome idea into and customize to your needs. It uses several very common flask modules.
 
-Django, for instance, has very thoroughly-thought-out "admin" features. A project may not wish to use this framework at all (see the excellent [Saleor](https://github.com/mirumee/saleor) storefront for a good example). It's still there, though, and since it's pretty tightly coupled with the entire framework, it's not something you want to mess with deleting.
+- Flask-Auth for authentication and roles (uses SQLite for dev, requires an SQL database and redis for production)
+- Flask-SQLAlchemy for ORM duties
+- Flask-Restful for the API (optional, it depends on your Profiles)
+- Flask-WhooshAlchemy for Profile searches
+- Flask-Mail (pre-configured for gmail account)
 
-The Dull Parts is meant to provide a good start on all the admin and user handling bits of a small app that you can just drop your awesome idea into and customize to your needs.
+All templates use Bootstrap out of the box. It's not required, but you'll probably want to make a few changes if you pull it out.
 
-## Quick Start
+If you have a working knowledge of Flask and python, this skeleton might save you a few days.
 
-## Database Init
+# Why? WHY?
+I use Flask on a daily basis to create small apps for work. Sometimes I find I need a combination of features that a micro-framework does not supply out of the box, but still does not inspire me to descend into the various bolgia of a "full-featured" framework.
 
-### Tables
-Tables are defined in App/Models.py. You are supplied with three tables:
+The mighty Django, for instance, has very thoroughly-thought-out "admin" features. A project may not wish to use this feature at all (see the excellent [Saleor](https://github.com/mirumee/saleor) storefront for a good example). Unfortunately, all that stuff still lives in your code, and who knows what it's going to get up to?
 
-- User: The user authentication table supplied by Flask-Auth
-- Profile: User profile table which has a relation to User.
-- TempAuth: A temporary table used to supply keys for initiializing user and updating passwords.
+So, this is not the life's work of a genius coder! Just some techniques I have found useful, and is offered in the hopes that I can save someone else time and energy.
 
-### Initialize a New Database and Create Root User
+## Quick Start 
+1. Fork this repository
+1. Clone repository and create a virtual environment.
+1. Set the environment variables as described in [Environment](#environment).
+1. Using the ADMIN_SECRET_KEY as an endpoint, browse to http://localhost/admin/init/<ADMIN_SECRET_KEY>
+1. Create your root user.
+1. Log in.
+1. Complete root profile.
+1. Add your fantastic code.
 
-1. find the ADMIN_SECRET_KEY value in config.py or your environment variable. 
-1. browse to http://your.domain/admin/init/<ADMIN_SECRET_KEY>
-1. create your root user
-1. log in
-1. complete root profile
+If this is a little sparse for you, see [Detailed Setup](#detailedsetup)
 
-Note that attempts to re-initialize the database or create a new root user will be thwarted. See App/Routes/Admin.py.
+## <a name="environment">Environment</a>
+I suggest using [autoenv](https://github.com/kennethreitz/autoenv) and creating an .env file.
 
-## Authentication
-- Flask-Auth handles authentication and assignment of roles.
-- sqlite with a SESSION_TYPE of "sqlalchemy" is fine for development
-- redis handles session in production. Use SESSION_TYPE "redis".
-
-see App/Routes/Auth.py and App/Roles.py
-
-## Environments
-
-### local
-I use virtualenv and autoenv for development.
-
-.env file
+### Example .env File
 ```bash
 APP_SECRET_KEY="backinnagasakiwherethefellowschewtobaccy";
 ADMIN_SECRET_KEY="andthewomenwickywackywoo";
@@ -61,7 +53,6 @@ MAIL_PASSWORD="secretpassword";
 SIGN_UP_SENDER="someuser@gmail.com";
 SIGN_UP_MESSAGE="Exiting App! It Excites One!"
 ```
-
 #### postgresql+psycopg2
 You'll need to run redis, as the session key is too large for sqlalchemy session to handle
 ```bash
@@ -74,9 +65,29 @@ You'll need to run redis, as the session key is too large for sqlalchemy session
 SQLALCHEMY_DATABASE_URI="mysql+pymysql://dullparts:password@localhost/dullparts";
 SESSION_TYPE="redis"
 ```
+### Tables
+Tables are defined in App/Models.py. You are supplied with three tables:
 
+- User: The user authentication table supplied by Flask-Auth
+- Profile: User profile table which has a relation to User.
+- TempAuth: A temporary table used to supply keys for initiializing user and updating passwords.
+
+## Authentication
+- Flask-Auth handles authentication and assignment of roles.
+- sqlite with a SESSION_TYPE of "sqlalchemy" is fine for development
+- redis handles session in production. Use SESSION_TYPE "redis".
+
+see App/Routes/Auth.py and App/Roles.py
+
+## <a name="detailedsetup">Detailed Setup</a>
+
+***NOT EVEN CLOSE TO READY***
+The instructions in this section "work for me". There are many ways, but these are my habits. If you have another technique to contribute, let me know and I'll add it.
+
+### local environment
 
 ### heroku
-heroku configuration here
 
-### deploy with gunicorn
+### deploy with gunicorn on ec2 instance
+
+
