@@ -36,7 +36,7 @@ So, this is not the life's work of a genius coder! Just some techniques I have f
 1. Complete root profile.
 1. Add your fantastic code.
 
-If this is a little sparse for you, see [Detailed Setup](#detailedsetup)
+If this is a little sparse for you, see [Detailed Setup and Deployment Suggestions](https://github.com/kphretiq/the-dull-parts/wiki/Detailed-Setup-and-Deployment-Suggestions)
 
 ## <a name="environment">Environment</a>
 I suggest using [autoenv](https://github.com/kennethreitz/autoenv) and creating an .env file.
@@ -78,16 +78,3 @@ Tables are defined in App/Models.py. You are supplied with three tables:
 - redis handles session in production. Use SESSION_TYPE "redis".
 
 see App/Routes/Auth.py and App/Roles.py
-
-## <a name="detailedsetup">Detailed Setup</a>
-
-***NOT EVEN CLOSE TO READY***
-The instructions in this section "work for me". There are many ways, but these are my bad habits. If you <strike>are disgusted with my sloth</strike> have another technique to contribute, let me know and I'll add it.
-
-### local environment
-
-### heroku
-
-### deploy with gunicorn on ec2 instance
-
-
