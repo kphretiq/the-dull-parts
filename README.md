@@ -1,12 +1,21 @@
 # The Dull Parts
-The dull parts of writing a web app:
-- Database Init
+
+... is not quite there yet. :-D
+
+## What are the Dull Parts?
+
+- Database Initialization
 - Authentication
-- Admin
+- "Admin Panels"
 - Profile Editing
 - Password Change/Recovery
 
-This rubber-stamp project is basically everything surrounding an actual app.
+I use Flask on a daily basis to create small apps for work. Sometimes I find I need a combination features that a micro-framework does not supply out of the box, but still does not inspire me to descend into the various bolgia of a "full-featured" framework.
+
+Django, for instance, has very thoroughly-thought-out "admin" features. A project may not wish to use this framework at all (see the excellent [Saleor](https://github.com/mirumee/saleor) storefront for a good example). It's still there, though, and since it's pretty tightly coupled with the entire framework, it's not something you want to mess with deleting.
+
+The Dull Parts is meant to provide a good start on all the admin and user handling bits of a small app that you can just drop your awesome idea into and customize to your needs.
+
 ## Quick Start
 
 ## Database Init
