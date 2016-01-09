@@ -7,6 +7,7 @@ The dull parts of writing a web app:
 - Password Change/Recovery
 
 This rubber-stamp project is basically everything surrounding an actual app.
+## Quick Start
 
 ## Database Init
 
@@ -26,6 +27,13 @@ Tables are defined in App/Models.py. You are supplied with three tables:
 1. complete root profile
 
 Note that attempts to re-initialize the database or create a new root user will be thwarted. See App/Routes/Admin.py.
+
+## Authentication
+- Flask-Auth handles authentication and assignment of roles.
+- sqlite with a SESSION_TYPE of "sqlalchemy" is fine for development
+- redis handles session in production. Use SESSION_TYPE "redis".
+
+see App/Routes/Auth.py and App/Roles.py
 
 ## Environments
 
