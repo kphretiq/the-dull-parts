@@ -26,7 +26,7 @@
 		<!-- bring the responsive noise -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>{% block title %}Exciting App, LLC - {% endblock %}</title>
+		<title>{% block title %}{{ config.SITE_NAME }} - {% endblock %}</title>
 		{% endblock %}
 	</head>
 	<body>
@@ -50,7 +50,7 @@
 		{% endblock %}
 
 		{% block footer %}
-		<p>&copy;Exciting App LLC <script>document.write(new Date().getFullYear())</script> all rights reserved.
+		<p>&copy; {{ config.SITE_HOLDER }} <script>document.write(new Date().getFullYear())</script> all rights reserved.
 		</p>
 		{% endblock %}
 	</body>

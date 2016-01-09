@@ -56,7 +56,9 @@ def auth_routes(app, db, mail):
                 error = 'User already exists.'
                 return render_template("error.html", error=error)
 
-            error = manifest_user(db, Profile, User, request, "root")
+            temp_auth = TempAuth.query.filter(TempAuth.key == key).one()
+            error = manifest_user(
+                    db, Profile, User, request, "user", email=temp_auth.email)
             if not error:
                 return render_template("auth/login.html", username=username)
             return render_template("error.html", error=error)

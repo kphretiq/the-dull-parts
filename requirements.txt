@@ -18,6 +18,7 @@ MarkupSafe==0.23
 money==1.2.2
 nltk==3.0.2
 poster==0.8.1
+psycopg2==2.6.1
 pycountry==1.18
 pytz==2015.4
 six==1.9.0

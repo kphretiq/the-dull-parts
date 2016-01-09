@@ -27,6 +27,9 @@ MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
 SIGN_UP_MESSAGE = os.environ.get("SIGN_UP_MESSAGE")
 SIGN_UP_SENDER = os.environ.get("SIGN_UP_SENDER")
 
+SITE_NAME = os.environ.get("SITE_NAME")
+SITE_HOLDER = os.environ.get("SITE_HOLDER")
+
 USER_TIMEOUT = 0
 
 # Prepare email templates

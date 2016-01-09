@@ -4,3 +4,4 @@ venv
 local.run.py
 .env
 *.db
+whoosh_index

@@ -10,6 +10,8 @@ User = get_user_class(db.Model)
 
 class Profile(db.Model):
     __tablename__ = "profile"
+    __searchable__ = ["username", "email", "first_name", "last_name"]
+
     id = db.Column(db.Integer, primary_key = True)
     # yes, this is redundant. Live with it.
     username = db.Column(db.String(80), unique=True, nullable=False)

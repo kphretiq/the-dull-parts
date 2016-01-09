@@ -7,7 +7,7 @@ from jinja2.loaders import DictLoader
 """
 Various non-route functions for creating users.
 """
-def manifest_user(db, Profile, User, request, role): 
+def manifest_user(db, Profile, User, request, role, **kwargs): 
     """
     Shared user creation for Auth and Admin
     Create a user in User
@@ -29,7 +29,12 @@ def manifest_user(db, Profile, User, request, role):
         db.session.commit()
 
         added = User.query.filter(User.username==username).first()
-        profile = Profile(user_id=added.id, username=username)
+
+        if "email" in kwargs and kwargs["email"]:
+            email = kwargs["email"]
+            profile = Profile(user_id=added.id, username=username, email=email)
+        else: 
+            profile = Profile(user_id=added.id, username=username)
         db.session.add(profile)
         db.session.commit()
 

@@ -2,12 +2,14 @@
 import uuid
 from flask import Flask, render_template, abort, request, session, redirect, url_for
 from flaskext.auth import permission_required
-
 from flask_mail import Message
 from App.Models import Profile, User
 from App.ManifestUser import manifest_user
+import flask.ext.whooshalchemy
+
 
 def admin_routes(app, db, mail):
+    flask.ext.whooshalchemy.whoosh_index(app, Profile) 
 
     @app.route("/admin/init/<string:admin_secret_key>", methods=["GET", "POST"])
     def admin_init(admin_secret_key): 
@@ -120,3 +122,21 @@ def admin_routes(app, db, mail):
             update_user,
             methods=["GET", "POST"],
             )
+
+    @permission_required(resource="administer", action="things")
+    def find_and_update_user():
+        if request.method == "POST":
+            search_key = request.form["search_key"]
+            results = Profile.query.whoosh_search(search_key)
+            return render_template("admin/find-and-update-user.html", results=results)
+
+        return render_template("admin/find-and-update-user.html")
+        
+    app.add_url_rule(
+            "/admin/find-and-update-user",
+            "find_and_update_user",
+            find_and_update_user,
+            methods=["GET", "POST"],
+            )
+
+
