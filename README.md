@@ -69,8 +69,8 @@ SESSION_TYPE="redis"
 Tables are defined in App/Models.py. You are supplied with three tables:
 
 - User: The user authentication table supplied by Flask-Auth
-- Profile: User profile table which has a relation to User.
-- TempAuth: A temporary table used to supply keys for initiializing user and updating passwords.
+- Profile: Table for user data, with relation to User table so roles are available.
+- TempAuth: A temporary table used to supply keys for initializing user and updating passwords.
 
 ## Authentication
 - Flask-Auth handles authentication and assignment of roles.
@@ -82,7 +82,7 @@ see App/Routes/Auth.py and App/Roles.py
 ## <a name="detailedsetup">Detailed Setup</a>
 
 ***NOT EVEN CLOSE TO READY***
-The instructions in this section "work for me". There are many ways, but these are my habits. If you have another technique to contribute, let me know and I'll add it.
+The instructions in this section "work for me". There are many ways, but these are my bad habits. If you <strike>are disgusted with my sloth</strike> have another technique to contribute, let me know and I'll add it.
 
 ### local environment
 
