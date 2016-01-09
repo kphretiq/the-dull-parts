@@ -8,20 +8,17 @@ Create New User
 {{ super() }}
 <!-- root-only js -->
 {% endblock %}
-{% block content %}
-<h1>Find and Update Users</h1>
-{% if error is defined %}
-<p>{{ error }}</p>	
-{% endif %}
+
+{% block adminsearch %}
 
 <form
 	id="find-and-update-user-form"
+ 	class="navbar-form navbar-right"
 	method="POST"
- 	role="form"
+ 	role="search"
   	action=/admin/find-and-update-user>
 
 	<div class="form-group">
-		<label for="input-searchkey" class="control-label">Userisms</label>
 		<input
 			type="text"
    			class="form-control"
@@ -39,6 +36,14 @@ Create New User
 			id="submit-search">Find User</button>
 	</div>
 </form>
+
+{% endblock %}
+
+{% block content %}
+<h1>Find and Update User</h1>
+{% if error is defined %}
+<p>{{ error }}</p>	
+{% endif %}
 
 {% if results is defined %}
 <ul>

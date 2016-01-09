@@ -2,8 +2,11 @@
 The dull parts of writing a web app:
 - Database Init
 - Authentication
-- Profile
-- Password Recovery
+- Profile Editing
+- Password Change/Recovery
+- Admin Panel
+
+
 
 ## environment
 
@@ -29,8 +32,6 @@ You'll need to run redis, as the session key is too large for sqlalchemy session
 SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://dullparts:password@localhost/dullparts";
 SESSION_TYPE="redis"
 ```
-
-
 #### mysql
 You'll need to run redis, as the session key is too large for sqlalchemy session to handle
 ```bash

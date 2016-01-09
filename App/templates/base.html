@@ -10,9 +10,8 @@
 		<!-- Latest compiled and minified bootstrap CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-		<link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/dull-parts.css") }}"> 
-
-		<link href="//fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet" type="text/css">
+		<!-- font awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 		<!-- bootstrap theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
@@ -23,6 +22,10 @@
 		<!-- form validator for bootstrap -->
 		<script type="text/javascript" src="{{ url_for('static', filename='js/lib/bootstrap-validator/validator.min.js') }}"></script>
 
+		<script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
+
+		<link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/dull-parts.css") }}"> 
+
 		<!-- bring the responsive noise -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -30,19 +33,39 @@
 		{% endblock %}
 	</head>
 	<body>
-		<div id="navbar">
-			{% block navbar %}
-				<a class="nb" href="/">home</a>
-				{% if not session.auth_user %}
-				<a class="nb" href="/login">log in or create account</a>
-				{% else %}
-				<a class="nb" href="/things">{{ session.auth_user.username }}'s things</a>
-				<a class="nb" href="/auth/profile">profile</a>
-				<a class="nb" href="/logout">log out</a>
-				{% endif %}
+		{% block navbar %}
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button
+						type="button"
+						class="btn dropdown-toggle"
+						data-togle="dropdown">
+						<i class="fa fa-bars fa-lg"></i>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="/">home</a></li>
 
-			{% endblock %}
-		</div>
+						{% if not session.auth_user %}
+						<li class="divider"></li>
+						<li><a href="/login">log in / create account</a></li>
+						{% else %}
+						<li><a href="/things">{{ session.auth_user.username }}'s things</a></li>
+						<li><a href="/auth/profile">{{ session.auth_user.username }}'s profile</a></li>
+						{% if session.auth_user.role in ["root", "admin"] %}
+						<li class="divider"></li>
+						<li><a href="/admin/find-and-update-user">find and update user</a></li>
+						{% endif %}
+						<li class="divider"></li>
+						<li><a href="/logout">log out</a></li>
+						{% endif %}
+					</ul>
+				</div>
+				{% block adminsearch %}
+				{% endblock %}
+			</div>
+		</nav>
+		{% endblock %}
 
 		{% block content %}
 			{% block vote %}
