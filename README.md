@@ -2,13 +2,32 @@
 The dull parts of writing a web app:
 - Database Init
 - Authentication
+- Admin
 - Profile Editing
 - Password Change/Recovery
-- Admin Panel
 
+This rubber-stamp project is basically everything surrounding an actual app.
 
+## Database Init
 
-## environment
+### Tables
+Tables are defined in App/Models.py. You are supplied with three tables:
+
+- User: The user authentication table supplied by Flask-Auth
+- Profile: User profile table which has a relation to User.
+- TempAuth: A temporary table used to supply keys for initiializing user and updating passwords.
+
+### Initialize a New Database and Create Root User
+
+1. find the ADMIN_SECRET_KEY value in config.py or your environment variable. 
+1. browse to http://your.domain/admin/init/<ADMIN_SECRET_KEY>
+1. create your root user
+1. log in
+1. complete root profile
+
+Note that attempts to re-initialize the database or create a new root user will be thwarted. See App/Routes/Admin.py.
+
+## Environments
 
 ### local
 I use virtualenv and autoenv for development.
