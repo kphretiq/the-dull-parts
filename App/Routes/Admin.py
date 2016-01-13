@@ -7,7 +7,6 @@ from App.Models import Profile, User
 from App.ManifestUser import manifest_user
 import flask.ext.whooshalchemy
 
-
 def admin_routes(app, db, mail):
     flask.ext.whooshalchemy.whoosh_index(app, Profile) 
 
@@ -136,6 +135,26 @@ def admin_routes(app, db, mail):
             "/admin/find-and-update-user",
             "find_and_update_user",
             find_and_update_user,
+            methods=["GET", "POST"],
+            )
+
+    @permission_required(resource="administer", action="things")
+    def delete_user(user_id):
+        profile = Profile.query.filter(Profile.id == user_id).first()
+        
+        if request.method == "POST":
+            Profile.query.filter(Profile.id == user_id).delete()
+            User.query.filter(User.id == user_id).delete()
+            db.session.commit()
+            return render_template("admin/find-and-update-user.html")
+
+        return render_template(
+                "admin/delete-user.html", user_id=user_id, profile=profile)
+        
+    app.add_url_rule(
+            "/admin/delete-user/<int:user_id>",
+            "delete_user",
+            delete_user,
             methods=["GET", "POST"],
             )
 

@@ -49,7 +49,10 @@ Create New User
 <ul>
 {% for result in results %}
 	<li>
-		<a href="/admin/update-user/{{ result.username }}">{{ result.username }}</a> {{ result.first_name }} {{ result.last_name }} {{ result.email }}
+		<a href="/admin/update-user/{{ result.username }}">
+			{{ result.username }}</a>
+		{{ result.first_name }} {{ result.last_name }} {{ result.email }}
+		<a href="/admin/delete-user/{{ result.user_id }}">delete </a>
 	</li>
 {% endfor %}
 </ul>
