@@ -121,8 +121,10 @@ def auth_routes(app, db, mail):
                 profile = Profile.query.filter(
                         Profile.email==temp_auth.email
                         ).first()
+
+                user = User.query.filter(User.id==profile.id).first()
                 username = profile.username
-                profile.user.password = password
+                user.set_and_encrypt_password(password)
                 db.session.commit()
             except Exception as error:
                 return render_template("error.html", error=error)
