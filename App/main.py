@@ -5,6 +5,7 @@ from flaskext.markdown import Markdown
 from flask_mail import Mail
 from App.Models import db
 from App.Roles import auth_roles
+from App.Routes.Palimpsest import palimpsest_routes
 from App.Routes.ExcitingApp import exciting_app_routes
 from App.Routes.Admin import admin_routes
 from App.Routes.Auth import auth_routes
@@ -29,6 +30,7 @@ Markdown(app, extensions=["nl2br", "fenced_code", "tables",])
 # initialize mail
 mail = Mail(app)
 
+palimpsest_routes(app, db)
 # routes require database and mail object
 exciting_app_routes(app, db, mail)
 admin_routes(app, db, mail)

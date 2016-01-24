@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+{{ super() }}
+{% if data is defined %}{{ data.name }}{% endif %}
+{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block navbar %}{{ super() }}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+{% if data is defined %}
+	<h1>{{ data.name }}</h1>
+
+	<p>{{ data.blurb }}</p>
+
+	{% for media in data.media %}
+	<div>
+		<img src="{{ media.uri }}" alt="{{ media.alt }}">
+	</div>
+	{% endfor %}
+
+	<div>
+		{% filter markdown %}{{ data.content}}{% endfilter %}
+	</div>
+
+{% endif %}
+</div>
+
+<div class="container">
+{% if data is defined %}
+	{% for child in data.children %}
+	<h2>{{ child.name }}</h2>
+	<a href="/p/read/{{ child.name }}">
+		{% if child.media %}
+		<div>
+			<img src="{{ child.media[0].uri }}" alt="{{ child.media[0].alt }}">
+		</div>
+		{% endif %}
+		{{ child.blurb }}
+	</a>
+	{% endfor %}
+{% endif %}
+</div>
+
+{% endblock %}

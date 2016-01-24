@@ -13,13 +13,24 @@ def auth_roles(app):
 
     # permission = Permission(resource, action)
     update_profile = Permission("update", "profile")
+    create_flow = Permission("create", "flow")
     administer_things = Permission("administer", "things")
     dangerous_things = Permission("dangerous", "things")
 
     roles = {
-            "user": Role("user", [update_profile]),
-            "admin": Role("admin", [update_profile, administer_things]),
-            "root": Role("root", [update_profile, administer_things, dangerous_things]),
+            "user": Role("user", [update_profile,]),
+            "creator": Role("creator", [update_profile, create_flow,]),
+            "admin": Role("admin", [
+                update_profile,
+                create_flow,
+                administer_things,
+                ]),
+            "root": Role("root", [
+                update_profile,
+                create_flow,
+                administer_things,
+                dangerous_things,
+                ]),
             }
     
     def load_role(role_name):

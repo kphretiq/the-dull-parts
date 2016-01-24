@@ -36,3 +36,61 @@ class TempAuth(db.Model):
     email = db.Column(db.String(254))
     key = db.Column(db.String(254))
     stamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+# TODO: check out using "after_delete" event to remove media
+# http://docs.sqlalchemy.org/en/latest/orm/events.html
+class Page(db.Model):
+    """
+    "children" is Adjacency List:
+        http://docs.sqlalchemy.org/en/latest/orm/self_referential.html
+    """
+    __tablename__ = "page"
+    __searchable__ = ["name",]
+
+    id = db.Column(db.Integer, primary_key = True)
+    parent_id = db.Column(db.Integer, db.ForeignKey("page.id"))
+    name = db.Column(db.String(255), unique=True, nullable=False)
+    blurb = db.Column(db.String(255))
+    content = db.Column(db.Text) # expect markdown
+    disabled = db.Column(db.Boolean)
+    front = db.Column(db.Boolean) # display as front page (only one!) 
+    primary = db.Column(db.Boolean) # link in navbar dropdown
+    featured = db.Column(db.Boolean) # displayed on front page
+    created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    updated = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
+    children = db.relationship("Page",
+            backref=db.backref("parent", remote_side=[id])
+            )
+    media = db.relationship("Media", backref="page", lazy="dynamic")
+
+    @db.validates("primary")
+    def update_primary(self, key, value):
+        if value == self.featured:
+            if value:
+                self.featured = 0
+            else:
+                self.featured = 1
+        self.primary = value
+        return value
+
+    @db.validates("featured")
+    def update_featured(self, key, value):
+        if value == self.primary:
+            if value:
+                self.primary = 0
+            else:
+                self.primary = 1
+        self.featured = value
+        return value
+
+# TODO: check out using "after_delete" event to trigger removal of media from s3
+class Media(db.Model):
+    __tablename__ = "media"
+    __searchable__ = []
+
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(255), unique=True, nullable=False)
+    uri = db.Column(db.String(255), unique=True, nullable=False)
+    mime_type = db.Column(db.String(24))
+    alt = db.Column(db.String(255), nullable=False) # alt tag string here
+    page_id = db.Column(db.Integer, db.ForeignKey("page.id"))
