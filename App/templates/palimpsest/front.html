@@ -8,42 +8,27 @@
 
 {% block content %}
 
+{% block sections %}
 <div class="container">
-	<h1> FRONT! </h1>
-{% if data is defined %}
-	<h1>{{ data.name }}</h1>
-
-	<p>{{ data.blurb }}</p>
-
-	{% for media in data.media %}
-	<div>
-		<img src="{{ media.uri }}" alt="{{ media.alt }}">
-	</div>
-	{% endfor %}
-
-	<div>
-		{% filter markdown %}{{ data.content}}{% endfilter %}
-	</div>
-
-{% endif %}
-</div>
-
-<div class="container">
-{% if data is defined %}
-	{% for child in data.children %}{% if not child.id==1 %}
-	<h2>{{ child.name }}</h2>
-	<a href="/p/read/{{ child.name }}">
-		{% if child.media %}
-		<div>
-			{% for media in child.media %}
-			<img src="{{ media.uri }}" alt="{{ media.alt }}">
-			{% endfor %}
-		</div>
-		{% endif %}
-		{{ child.blurb }}
+	{% for choice in primary %}
+	<a href="/p/read/{{ choice.name }}">
+		<div class="col-md-2 text-center">{{ choice.name }}</div>
 	</a>
-	{% endif %}{% endfor %}
-{% endif %}
+	{% endfor %}
 </div>
+{% endblock %}
 
+<div class="container">
+	{% for feature in featured %}
+	<a href="/p/read/{{ feature.name }}">
+		<div class="col-md-4 text-center">
+			<h5>{{ feature.name }}</h5>
+			{% for media in feature.media %}
+			<img class="img-responsive" src={{ media.uri }} alt={{ media.alt }}>
+			{% endfor %}
+
+		</div>
+	</a>
+	{% endfor %}
+</div>
 {% endblock %}

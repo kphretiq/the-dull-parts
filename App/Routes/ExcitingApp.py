@@ -7,8 +7,8 @@ from App.Models import Profile, User
 
 def exciting_app_routes(app, db, mail):
 
-    @app.route("/")
-    def index():
+    @app.route("/stale")
+    def index_stale():
         return render_template("index.html")
 
     @permission_required(resource="update", action="profile")

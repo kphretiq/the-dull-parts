@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %} {{ super() }}Create Node{% endblock %}
+{% block head %}
+{{ super() }}
+<!-- uploader -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/uploader.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/lib/dropzone.js') }}"></script>
+<!-- dropzone.js file uploader -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/lib/dropzone.js') }}"></script>
+<link rel="stylesheet" src="{{ url_for('static', filename='css/dropzone.css') }}"></script>
+{% endblock %} 
+{% block navbar %} {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="container">
+	<h1>
+		Update Media {% if data is defined %} for {{ data.name }}{% endif %}
+	</h1>
+	<form
+		id="create-form"
+		data-toggle="validator"
+		role="form"
+		method="POST">
+
+		<div id="preview"></div>
+
+		<input type="hidden" name="page_id" value={{ data.id }}>
+		<input type="hidden" id="input-uri" name="uri">
+		<input type="hidden" id="input-mime-type" name="mime_type">
+
+		<div class="form-group">
+			<label for="input-name" class="control-label">Media File</label>
+			<input
+				type="file"
+				class="form-control"
+				id="input-name"
+				name="name"
+				required></input>
+			<div class="help-block with-errors"></div>
+		</div>
+
+		<div class="form-group">
+			<label for="input-alt" class="control-label">Alt Text</label>
+			<input
+				type="text"
+				class="form-control"
+				id="input-alt"
+				name="alt"
+				placeholder="Description of Media for ADA Compliance."
+				required></input>
+			<div class="help-block with-errors"></div>
+		</div>
+
+		<div class="form-group">
+			<label for="submit-update" class="control-label"></label>
+			<button
+				type="submit"
+				class="btn btn-primary"
+				id="submit-update">Create</button>
+		</div>
+
+	</form>
+</div>
+<div class="modal"></div>
+{% endblock %}

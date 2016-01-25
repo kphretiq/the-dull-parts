@@ -30,6 +30,10 @@ SIGN_UP_SENDER = os.environ.get("SIGN_UP_SENDER")
 SITE_NAME = os.environ.get("SITE_NAME")
 SITE_HOLDER = os.environ.get("SITE_HOLDER")
 
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+
 USER_TIMEOUT = 0
 
 # Prepare email templates

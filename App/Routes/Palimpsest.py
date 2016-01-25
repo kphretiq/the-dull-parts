@@ -8,6 +8,25 @@ from App.Models import *
 
 def palimpsest_routes(app, db):
 
+    @app.route("/")
+    def index():
+        try:
+            data = Page.query.filter(Page.id == 1).one()
+            primary = Page.query.filter(Page.role == "primary").all()
+            featured = Page.query.filter(Page.role == "featured").all()
+        except sqlalchemy.orm.exc.NoResultFound:
+            error = "You need to make a main page. Try /p/create/1" 
+            return render_template("error.html", error=error)
+        except Exception as error: 
+            return render_template("error.html", error=error)
+        print(len(featured))
+        return render_template(
+                "palimpsest/front.html",
+                data=data,
+                primary=primary,
+                featured=featured,
+                )
+
     @app.route("/p/read/<string:name>")
     def read(name):
         try:

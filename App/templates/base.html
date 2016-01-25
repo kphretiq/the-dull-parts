@@ -54,6 +54,11 @@
 						<li><a href="/auth/profile">{{ session.auth_user.username }}'s profile</a></li>
 						{% if session.auth_user.role in ["root", "admin"] %}
 						<li class="divider"></li>
+						{% if data is defined %}
+						<li><a href="/p/update/{{ data.name }}">update page</a></li>
+						<li class="divider"></li>
+						{% endif %}
+
 						<li><a href="/admin/create-user">create user</a></li>
 						<li><a href="/admin/find-and-update-user">find and update user</a></li>
 						{% endif %}
