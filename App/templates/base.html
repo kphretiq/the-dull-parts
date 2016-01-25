@@ -74,8 +74,10 @@
 		{% endblock %}
 
 		{% block footer %}
-		<p>&copy; {{ config.SITE_HOLDER }} <script>document.write(new Date().getFullYear())</script> all rights reserved.
+		<div class="container">
+			<p class="front">&copy; {{ config.SITE_HOLDER }} <script>document.write(new Date().getFullYear())</script> all rights reserved.
 		</p>
+		</div>
 		{% endblock %}
 	</body>
 </html>

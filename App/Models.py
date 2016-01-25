@@ -52,36 +52,14 @@ class Page(db.Model):
     name = db.Column(db.String(255), unique=True, nullable=False)
     blurb = db.Column(db.String(255))
     content = db.Column(db.Text) # expect markdown
+    role = db.Column(db.Enum("default", "primary", "featured"), default="default") 
     disabled = db.Column(db.Boolean)
-    front = db.Column(db.Boolean) # display as front page (only one!) 
-    primary = db.Column(db.Boolean) # link in navbar dropdown
-    featured = db.Column(db.Boolean) # displayed on front page
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     updated = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
     children = db.relationship("Page",
             backref=db.backref("parent", remote_side=[id])
             )
     media = db.relationship("Media", backref="page", lazy="dynamic")
-
-    @db.validates("primary")
-    def update_primary(self, key, value):
-        if value == self.featured:
-            if value:
-                self.featured = 0
-            else:
-                self.featured = 1
-        self.primary = value
-        return value
-
-    @db.validates("featured")
-    def update_featured(self, key, value):
-        if value == self.primary:
-            if value:
-                self.primary = 0
-            else:
-                self.primary = 1
-        self.featured = value
-        return value
 
 # TODO: check out using "after_delete" event to trigger removal of media from s3
 class Media(db.Model):
